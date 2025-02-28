@@ -2,8 +2,7 @@
 	bfs
 	This problem requires you to implement a basic BFS algorithm
 */
-
-//I AM NOT DONE
+use std::collections::HashSet;
 use std::collections::VecDeque;
 
 // Define a graph
@@ -29,8 +28,21 @@ impl Graph {
     fn bfs_with_return(&self, start: usize) -> Vec<usize> {
         
 		//TODO
-
         let mut visit_order = vec![];
+        let mut visited = HashSet::new();
+        let mut queue = VecDeque::new();
+        queue.push_back(start);
+        visited.insert(start);
+        while !queue.is_empty() {
+            let node = queue.pop_front().unwrap();
+            visit_order.push(node);
+            for &neighbour in &self.adj[node] {
+                if !visited.contains(&neighbour) {
+                    queue.push_back(neighbour);
+                    visited.insert(neighbour);
+                }
+            }
+        }
         visit_order
     }
 }
